@@ -33,7 +33,7 @@ static class SmelterOnAddOrePatch
 {
     static bool Prefix(Smelter __instance, Humanoid user, ItemDrop.ItemData item, ZNetView ___m_nview)
     {
-        bool pullAll = CraftyBoxesPlugin.fillAllModKey.Value.IsPressed();
+        bool pullAll = Input.GetKey(CraftyBoxesPlugin.fillAllModKey.Value.MainKey); // Used to be fillAllModKey.Value.isPressed(); something is wrong with KeyboardShortcuts always returning false
         if (!CraftyBoxesPlugin.modEnabled.Value || (!CraftyBoxesPlugin.AllowByKey() && !pullAll) || item != null ||
             __instance.GetQueueSize() >= __instance.m_maxOre)
             return true;
@@ -110,7 +110,7 @@ static class SmelterOnAddOrePatch
                 if (!added.ContainsKey(name))
                     added[name] = 0;
                 added[name] += amount;
-
+                CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Pull ALL is {pullAll}");
                 CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
                     $"(SmelterOnAddOrePatch) Container at {c.transform.position} has {newItem.m_stack} {newItem.m_dropPrefab.name}, taking {amount}");
 
@@ -148,7 +148,7 @@ static class SmelterOnAddFuelPatch
     static bool Prefix(Smelter __instance, ref bool __result, ZNetView ___m_nview, Humanoid user,
         ItemDrop.ItemData item)
     {
-        bool pullAll = CraftyBoxesPlugin.fillAllModKey.Value.IsPressed();
+        bool pullAll = Input.GetKey(CraftyBoxesPlugin.fillAllModKey.Value.MainKey); // Used to be fillAllModKey.Value.IsPressed(); something is wrong with KeyboardShortcuts always returning false
         Inventory inventory = user.GetInventory();
         if (!CraftyBoxesPlugin.modEnabled.Value || (!CraftyBoxesPlugin.AllowByKey() && !pullAll) || item != null ||
             inventory == null ||
@@ -196,7 +196,7 @@ static class SmelterOnAddFuelPatch
                     $"(SmelterOnAddFuelPatch) Container at {c.transform.position} has {newItem.m_stack} {newItem.m_dropPrefab.name} but it's forbidden by config");
                 continue;
             }
-
+            CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Pull ALL is {pullAll}");
             int amount = pullAll
                 ? (int)Mathf.Min(
                     __instance.m_maxFuel - __instance.GetFuel(), newItem.m_stack)

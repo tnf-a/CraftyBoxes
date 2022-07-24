@@ -45,5 +45,8 @@ For Questions or Comments, find me in the Odin Plus Team Discord:
 
 ***
 > # Update Information (Latest listed first)
+> > ### v1.0.1
+> - Reflect the changes made in OdinsQOL
+>   - Fixed FillAllKey not working. Keyboardshortcut was always returning false, not sure why.
 > ### v1.0.0
 > - Initial Release

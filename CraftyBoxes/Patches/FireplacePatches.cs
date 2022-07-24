@@ -13,7 +13,7 @@ static class FireplaceInteractPatch
     static bool Prefix(Fireplace __instance, Humanoid user, bool hold, ref bool __result, ZNetView ___m_nview)
     {
         __result = true;
-        bool pullAll = CraftyBoxesPlugin.fillAllModKey.Value.IsPressed();
+        bool pullAll = Input.GetKey(CraftyBoxesPlugin.fillAllModKey.Value.MainKey); // Used to be fillAllModKey.Value.IsPressed(); something is wrong with KeyboardShortcuts always returning false
         Inventory inventory = user.GetInventory();
 
         if (!CraftyBoxesPlugin.AllowByKey() || hold || inventory == null ||
@@ -64,6 +64,7 @@ static class FireplaceInteractPatch
                         __instance.m_maxFuel - Mathf.CeilToInt(___m_nview.GetZDO().GetFloat("fuel")),
                         item.m_stack)
                     : 1;
+                CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Pull ALL is {pullAll}");
 
                 CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
                     $"(FireplaceInteractPatch) Container at {c.transform.position} has {item.m_stack} {item.m_dropPrefab.name}, taking {amount}");
