@@ -45,8 +45,21 @@ For Questions or Comments, find me in the Odin Plus Team Discord:
 
 ***
 > # Update Information (Latest listed first)
-> > ### v1.0.1
+
+
+> #### v1.0.2
+> `NOTE: I am on a two week break from modding, any more enhancements you'd like or bugs needing fixing will be added/fixed when I return.`
+> 
+> * Reflect the fixes from OdinQOL for these Potentially game breaking fixes:
+>    * Fix a bug where the requirement was more than the max stack size or the item can't be stacked would cause a rouge
+>      item to be left in the chest. (Thanks to Lime18 for the bug report & Bjorn for the fix!)
+>    * Fix a bug where pulling resources while having the stack size multiplied would cause an increase in the stack size
+>      & sometimes the actual item count. (Thanks to Bjorn for the bug report & fix!)
+>    * Fix for Pulling resources into the player inventory not grabbing all resources needed to craft if the item doesn't
+>      stack. (Found when testing Bjorn's fix!)
+> * Remove incompatibility with Mod Settings mod. Will add back if issues with that mod arise.
+> #### v1.0.1
 > - Reflect the changes made in OdinsQOL
 >   - Fixed FillAllKey not working. Keyboardshortcut was always returning false, not sure why.
-> ### v1.0.0
+> #### v1.0.0
 > - Initial Release
