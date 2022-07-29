@@ -161,7 +161,7 @@ static class ConsumeResourcesPatch
                     continue;
 
 
-                for (int i = 0; i < cInventory.GetAllItems().Count; i++)
+                for (int i = 0; i < cInventory.GetAllItems().Count; ++i)
                 {
                     ItemDrop.ItemData item = cInventory.GetItem(i);
                     if (item.m_shared.m_name != reqName) continue;
@@ -169,7 +169,10 @@ static class ConsumeResourcesPatch
                         $"(ConsumeResourcesPatch) Got stack of {item.m_stack} {reqName}");
                     int stackAmount = Mathf.Min(item.m_stack, totalRequirement - totalAmount);
                     if (stackAmount == item.m_stack)
+                    {
                         cInventory.RemoveItem(item);
+                        --i;
+                    }
                     else
                         item.m_stack -= stackAmount;
 

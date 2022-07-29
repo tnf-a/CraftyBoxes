@@ -191,4 +191,16 @@ namespace CraftyBoxes
 
         #endregion
     }
+    
+    [HarmonyPatch(typeof(FejdStartup), nameof(FejdStartup.Awake))]
+    static class CFCFejdStartupAwakePatch
+    {
+
+        static void Postfix(FejdStartup __instance)
+        {
+            if (!CraftyBoxesPlugin.modEnabled.Value)
+                return;
+            Functions.CheckOdinsQOLConfig();
+        }
+    }
 }

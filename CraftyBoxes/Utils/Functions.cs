@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BepInEx;
+using BepInEx.Bootstrap;
+using BepInEx.Configuration;
 using CraftyBoxes.Compatibility.WardIsLove;
 using HarmonyLib;
 using UnityEngine;
@@ -33,6 +36,31 @@ public static class Functions
 
         yield break;
     }*/
+
+    public static void CheckOdinsQOLConfig()
+    {
+        CraftyBoxesPlugin.itemStackSizeMultiplier = 0;
+        CraftyBoxesPlugin.itemWeightReduction = 0;
+        Dictionary<string, PluginInfo> pluginInfos = Chainloader.PluginInfos;
+        foreach (PluginInfo plugin in
+                 pluginInfos.Values.Where(plugin => plugin?.Metadata.GUID == "com.odinplusqol.mod"))
+        {
+            CraftyBoxesPlugin.odinQolInstalled = CraftyBoxesPlugin.modEnabled.Value;
+            CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug("Found OdinPlusQoL");
+            foreach (ConfigDefinition key in plugin.Instance.Config.Keys)
+            {
+                switch (key.Key)
+                {
+                    case "Item Stack Increase":
+                        CraftyBoxesPlugin.itemStackSizeMultiplier = (float)plugin.Instance.Config[key].BoxedValue;
+                        break;
+                    case "Item Weight Increase":
+                        CraftyBoxesPlugin.itemWeightReduction = (float)plugin.Instance.Config[key].BoxedValue;
+                        break;
+                }
+            }
+        }
+    }
 
     public static void AddContainer(Container container, ZNetView nview)
     {
@@ -147,7 +175,7 @@ public static class Functions
                         continue;
 
 
-                    for (int i = 0; i < cInventory.GetAllItems().Count; i++)
+                    for (int i = 0; i < cInventory.GetAllItems().Count; ++i)
                     {
                         ItemDrop.ItemData item = cInventory.GetItem(i);
                         if (item.m_shared.m_name != reqName) continue;
@@ -174,9 +202,8 @@ public static class Functions
                                 if (sendItem.m_shared.m_maxStackSize > 1)
                                     if (CraftyBoxesPlugin.itemStackSizeMultiplier >= 1)
                                         sendItem.m_shared.m_maxStackSize =
-                                            (int)ApplyModifierValue(
-                                                requirement.m_resItem.m_itemData.m_shared.m_maxStackSize,
-                                                CraftyBoxesPlugin.itemStackSizeMultiplier);
+                                            requirement.m_resItem.m_itemData.m_shared.m_maxStackSize *
+                                            (int)CraftyBoxesPlugin.itemStackSizeMultiplier;
                             }
                         }
                         else
@@ -188,13 +215,16 @@ public static class Functions
                         pInventory.AddItem(sendItem);
 
                         if (stackAmount == item.m_stack)
+                        {
                             cInventory.RemoveItem(item);
+                            --i;
+                        }
                         else
                             item.m_stack -= stackAmount;
 
                         totalAmount += stackAmount;
                         CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
-                            $"total amount is now {totalAmount}/{totalRequirement} {reqName}");
+                            $"Total amount is now {totalAmount}/{totalRequirement} {reqName}");
 
                         if (totalAmount >= totalRequirement)
                             break;
@@ -204,7 +234,7 @@ public static class Functions
                     cInventory.Changed();
 
                     if (totalAmount < totalRequirement) continue;
-                    CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"pulled enough {reqName}");
+                    CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Pulled enough {reqName}");
                     break;
                 }
             }
