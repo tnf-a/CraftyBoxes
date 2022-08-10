@@ -18,7 +18,7 @@ namespace CraftyBoxes
     public class CraftyBoxesPlugin : BaseUnityPlugin
     {
         internal const string ModName = "OdinsCraftyBoxes";
-        internal const string ModVersion = "1.0.2";
+        internal const string ModVersion = "1.0.3";
         internal const string Author = "odinplus";
         private const string ModGuid = Author + "qol." + ModName;
         private const string ConfigFileName = ModGuid + ".cfg";
