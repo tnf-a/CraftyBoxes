@@ -46,10 +46,10 @@ For Questions or Comments, find me in the Odin Plus Team Discord:
 ***
 > # Update Information (Latest listed first)
 
-
+> ### v1.0.3
+> * Reflect the additions to CFC from OdinQOL.
+>   * CFC now has a configuration option for ItemDisallowTypes, to prevent certain items from being pulled into the player inventory.
 > #### v1.0.2
-> `NOTE: I am on a two week break from modding, any more enhancements you'd like or bugs needing fixing will be added/fixed when I return.`
-> 
 > * Reflect the fixes from OdinQOL for these Potentially game breaking fixes:
 >    * Fix a bug where the requirement was more than the max stack size or the item can't be stacked would cause a rouge
 >      item to be left in the chest. (Thanks to Lime18 for the bug report & Bjorn for the fix!)

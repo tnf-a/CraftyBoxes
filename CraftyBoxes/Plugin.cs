@@ -130,6 +130,7 @@ namespace CraftyBoxes
         public static ConfigEntry<string> pulledMessage = null!;
         public static ConfigEntry<string> fuelDisallowTypes = null!;
         public static ConfigEntry<string> oreDisallowTypes = null!;
+        public static ConfigEntry<string> CFCItemDisallowTypes = null!;
         public static ConfigEntry<KeyboardShortcut> pullItemsKey = null!;
         public static ConfigEntry<KeyboardShortcut> preventModKey = null!;
         public static ConfigEntry<KeyboardShortcut> fillAllModKey = null!;

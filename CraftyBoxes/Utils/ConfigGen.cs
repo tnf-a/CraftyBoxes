@@ -28,7 +28,9 @@ public static class ConfigGen
         CraftyBoxesPlugin.oreDisallowTypes = CraftyBoxesPlugin.context.config("General", "OreDisallowTypes",
             "RoundLog,FineWood",
             "Types of item to disallow as ore (i.e. anything that is transformed), comma-separated). Uses Prefab names.");
-
+        CraftyBoxesPlugin.CFCItemDisallowTypes = CraftyBoxesPlugin.context.config("CraftFromContainers", "ItemDisallowTypes",
+            "",
+            "Types of items to disallow pulling from chests, comma-separated. Uses Prefab names.");
         CraftyBoxesPlugin.showGhostConnections = CraftyBoxesPlugin.context.config("Station Connections",
             "ShowConnections", false,
             "If true, will display connections to nearby workstations within range when building containers", false);

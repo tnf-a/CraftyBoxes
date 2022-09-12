@@ -150,6 +150,7 @@ public static class Functions
     {
         Inventory pInventory = Player.m_localPlayer.GetInventory();
         List<Container> nearbyContainers = GetNearbyContainers(Player.m_localPlayer.transform.position);
+        bool skipThis = false;
         foreach (Piece.Requirement requirement in resources)
         {
             if (requirement.m_resItem)
@@ -186,6 +187,16 @@ public static class Functions
                             stackAmount =
                                 Math.Min(
                                     pInventory.FindFreeStackSpace(item.m_shared.m_name), stackAmount);
+                        skipThis = false;
+                        foreach (string s in CraftyBoxesPlugin.CFCItemDisallowTypes.Value.Split(','))
+                        {
+                            if (!requirement.m_resItem.m_itemData.m_dropPrefab.name.Contains(s)) continue;
+                            CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
+                                $"Can't send {s} to player it is contained in the ItemDisallowTypes list for CraftFromContainers");
+                            skipThis = true;
+                        }
+
+                        if (skipThis) continue;
 
                         CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Sending {stackAmount} {reqName} to player");
 
