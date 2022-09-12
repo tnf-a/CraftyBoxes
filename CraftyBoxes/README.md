@@ -40,15 +40,19 @@
 `STEAM:` https://steamcommunity.com/id/azumatt/
 
 
-For Questions or Comments, find me in the Odin Plus Team Discord:
+For Questions or Comments, find me in the Odin Plus Team Discord or in mine:
+
 [![https://i.imgur.com/XXP6HCU.png](https://i.imgur.com/XXP6HCU.png)](https://discord.gg/Pb6bVMnFb2)
+<a href="https://discord.gg/pdHgy6Bsng"><img src="https://i.imgur.com/Xlcbmm9.png" href="https://discord.gg/pdHgy6Bsng" width="175" height="175"></a>
 
 ***
 > # Update Information (Latest listed first)
 
-> ### v1.0.3
+> ### v1.0.4
 > * Reflect the additions to CFC from OdinQOL.
 >   * CFC now has a configuration option for ItemDisallowTypes, to prevent certain items from being pulled into the player inventory.
+> ### v1.0.3
+> * WardIsLove compatibility update for v3.0.1
 > #### v1.0.2
 > * Reflect the fixes from OdinQOL for these Potentially game breaking fixes:
 >    * Fix a bug where the requirement was more than the max stack size or the item can't be stacked would cause a rouge
