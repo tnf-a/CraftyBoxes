@@ -1,4 +1,4 @@
-﻿The CraftFromContainers feature from OdinQOL, pulled out for your modular pleasure.
+The CraftFromContainers feature from OdinQOL, pulled out for your modular pleasure.
 
 
 `This mod uses ServerSync internally. Settings can change live through the BepInEx Configuration manager (if you are in game) or by directly changing the file on the server. Can be installed on both the client and the server to enforce configuration.`
@@ -48,6 +48,8 @@ For Questions or Comments, find me in the Odin Plus Team Discord or in mine:
 ***
 > # Update Information (Latest listed first)
 
+> ### v1.0.5
+> * Update ServerSync internally.
 > ### v1.0.4
 > * Reflect the additions to CFC from OdinQOL.
 >   * CFC now has a configuration option for ItemDisallowTypes, to prevent certain items from being pulled into the player inventory.
