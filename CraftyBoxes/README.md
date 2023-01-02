@@ -127,8 +127,9 @@ For Questions or Comments, find me in the Odin Plus Team Discord or in mine:
 ***
 > # Update Information (Latest listed first)
 
-> ### v1.0.7
+> ### v1.0.7/v1.0.8
 > * Fixing pulling items into the player inventory from chests
+> * Remove debug logs (v1.0.8)
 > ### v1.0.6
 > * Mistlands
 > ### v1.0.5

@@ -203,7 +203,6 @@ public static class Functions
 
                         ItemDrop.ItemData sendItem = item.Clone();
                         sendItem.m_stack = stackAmount;
-                        CraftyBoxesPlugin.CraftyBoxesLogger.LogError("14");
                         if (CraftyBoxesPlugin.odinQolInstalled)
                         {
                             if (CraftyBoxesPlugin.itemStackSizeMultiplier > 0)
@@ -223,7 +222,6 @@ public static class Functions
                             sendItem.m_shared.m_maxStackSize =
                                 requirement.m_resItem.m_itemData.m_shared.m_maxStackSize;
                         }
-                        CraftyBoxesPlugin.CraftyBoxesLogger.LogError("144");
                         pInventory.AddItem(sendItem);
 
                         if (stackAmount == item.m_stack)
