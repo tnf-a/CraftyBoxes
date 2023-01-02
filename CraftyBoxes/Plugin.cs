@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -18,7 +21,7 @@ namespace CraftyBoxes
     public class CraftyBoxesPlugin : BaseUnityPlugin
     {
         internal const string ModName = "OdinsCraftyBoxes";
-        internal const string ModVersion = "1.0.51";
+        internal const string ModVersion = "1.0.7";
         internal const string Author = "odinplus";
         private const string ModGuid = Author + "qol." + ModName;
         private const string ConfigFileName = ModGuid + ".cfg";
@@ -52,6 +55,30 @@ namespace CraftyBoxes
             Assembly assembly = Assembly.GetExecutingAssembly();
             _harmony.PatchAll(assembly);
             SetupWatcher();
+        }
+        
+        internal static void AutoDoc()
+        {
+            // Store Regex to get all characters after a [
+            Regex regex = new(@"\[(.*?)\]");
+
+            // Strip using the regex above from Config[x].Description.Description
+            string Strip(string x) => regex.Match(x).Groups[1].Value;
+            StringBuilder sb = new();
+            string lastSection = "";
+            foreach (ConfigDefinition x in context.Config.Keys)
+            {
+                // skip first line
+                if (x.Section != lastSection)
+                {
+                    lastSection = x.Section;
+                    sb.Append($"{Environment.NewLine}`{x.Section}`{Environment.NewLine}");
+                }
+                sb.Append($"\n{x.Key} [{Strip(context.Config[x].Description.Description)}]" +
+                          $"{Environment.NewLine}   * {context.Config[x].Description.Description.Replace("[Synced with Server]", "").Replace("[Not Synced with Server]", "")}" +
+                          $"{Environment.NewLine}     * Default Value: {context.Config[x].GetSerializedValue()}{Environment.NewLine}");
+            }
+            File.WriteAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, $"{ModName}_AutoDoc.md"), sb.ToString());
         }
 
         private void OnDestroy()
@@ -204,4 +231,15 @@ namespace CraftyBoxes
             Functions.CheckOdinsQOLConfig();
         }
     }
+
+#if DEBUG
+    [HarmonyPatch(typeof(Player),nameof(Player.Awake))]
+    static class Player_Awake_Patch
+    {
+        static void Postfix(Player __instance)
+        {
+            CraftyBoxesPlugin.AutoDoc();
+        }
+    }
+#endif
 }

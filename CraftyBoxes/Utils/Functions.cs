@@ -158,20 +158,16 @@ public static class Functions
                 int totalRequirement = requirement.GetAmount(qualityLevel);
                 if (totalRequirement <= 0)
                     continue;
-
                 string reqName = requirement.m_resItem.m_itemData.m_shared.m_name;
                 int totalAmount = 0;
                 CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
                     $"have {totalAmount}/{totalRequirement} {reqName} in player inventory");
-
                 foreach (Container c in nearbyContainers)
                 {
                     Inventory cInventory = c.GetInventory();
                     int thisAmount = Mathf.Min(cInventory.CountItems(reqName), totalRequirement - totalAmount);
-
                     CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
                         $"Container at {c.transform.position} has {cInventory.CountItems(reqName)}");
-
                     if (thisAmount == 0)
                         continue;
 
@@ -179,17 +175,23 @@ public static class Functions
                     for (int i = 0; i < cInventory.GetAllItems().Count; ++i)
                     {
                         ItemDrop.ItemData item = cInventory.GetItem(i);
+                        if(item == null) continue;
                         if (item.m_shared.m_name != reqName) continue;
                         CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Got stack of {item.m_stack} {reqName}");
                         int stackAmount = Mathf.Min(item.m_stack, totalRequirement - totalAmount);
-
                         if (!pInventory.HaveEmptySlot())
                             stackAmount =
                                 Math.Min(
                                     pInventory.FindFreeStackSpace(item.m_shared.m_name), stackAmount);
                         skipThis = false;
-                        foreach (string s in CraftyBoxesPlugin.CFCItemDisallowTypes.Value.Split(','))
+                        foreach (string s in CraftyBoxesPlugin.CFCItemDisallowTypes.Value.Trim().Split(','))
                         {
+                            if (requirement.m_resItem.m_itemData.m_dropPrefab == null)
+                            {
+                                CraftyBoxesPlugin.CraftyBoxesLogger.LogError("dropPrefab is null for " + Localization.instance.Localize(requirement.m_resItem.m_itemData.m_shared.m_name));
+                                continue;
+                            }
+                            if(s.IsNullOrWhiteSpace()) {continue;}
                             if (!requirement.m_resItem.m_itemData.m_dropPrefab.name.Contains(s)) continue;
                             CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug(
                                 $"Can't send {s} to player it is contained in the ItemDisallowTypes list for CraftFromContainers");
@@ -197,12 +199,11 @@ public static class Functions
                         }
 
                         if (skipThis) continue;
-
                         CraftyBoxesPlugin.CraftyBoxesLogger.LogDebug($"Sending {stackAmount} {reqName} to player");
 
                         ItemDrop.ItemData sendItem = item.Clone();
                         sendItem.m_stack = stackAmount;
-
+                        CraftyBoxesPlugin.CraftyBoxesLogger.LogError("14");
                         if (CraftyBoxesPlugin.odinQolInstalled)
                         {
                             if (CraftyBoxesPlugin.itemStackSizeMultiplier > 0)
@@ -222,7 +223,7 @@ public static class Functions
                             sendItem.m_shared.m_maxStackSize =
                                 requirement.m_resItem.m_itemData.m_shared.m_maxStackSize;
                         }
-
+                        CraftyBoxesPlugin.CraftyBoxesLogger.LogError("144");
                         pInventory.AddItem(sendItem);
 
                         if (stackAmount == item.m_stack)
