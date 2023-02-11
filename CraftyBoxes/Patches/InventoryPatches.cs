@@ -62,7 +62,7 @@ static class InventoryGuiOnCraftPressedPatch
     static bool Prefix(InventoryGui __instance, KeyValuePair<Recipe, ItemDrop.ItemData> ___m_selectedRecipe,
         ItemDrop.ItemData ___m_craftUpgradeItem)
     {
-        if (!CraftyBoxesPlugin.modEnabled.Value || !CraftyBoxesPlugin.AllowByKey() ||
+        if (!CraftyBoxesPlugin.modEnabled.Value || 
             !CraftyBoxesPlugin.pullItemsKey.Value.IsPressed() || ___m_selectedRecipe.Key == null)
             return true;
 
